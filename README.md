@@ -15,7 +15,9 @@
 * 각 요구사항을 구현하는 것이 중요한 것이 아니라 구현 과정을 통해 학습한 내용을 인식하는 것이 배움에 중요하다. 
 
 ### 요구사항 1 - http://localhost:8080/index.html로 접속시 응답
-* 
+* BufferReader의 readLine 메서드를 중간에 넣어야 라인이 넘어간다!
+* null 처리를 해야 한다!
+* Files.readAllBytes로 html파일을 직접 byte[]로 읽어들여 바디로 클라이언트로 보내준다!
 
 ### 요구사항 2 - get 방식으로 회원가입
 * 
