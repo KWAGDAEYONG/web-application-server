@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.util.Map;
 
+import db.DataBase;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,14 +51,29 @@ public class RequestHandler extends Thread {
                 Map<String, String> param = HttpRequestUtils.parseQueryString(data);
                 User user = new User(param.get("userId"),param.get("password"),param.get("name"),param.get("email"));
                 log.debug("user:{}",user.toString());
-                url = "/index.html";
+                DataBase.addUser(user);
+                DataOutputStream dos = new DataOutputStream(out);
+                response302Header(dos);
+            }else{
+                DataOutputStream dos = new DataOutputStream(out);
+                byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
+                response200Header(dos, body.length);
+                responseBody(dos, body);
             }
 
-            DataOutputStream dos = new DataOutputStream(out);
+            /*DataOutputStream dos = new DataOutputStream(out);
             byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
-
-            response200Header(dos, body.length);
-            responseBody(dos, body);
+            response302Header(dos, body.length);
+            responseBody(dos, body);*/
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+    private void response302Header(DataOutputStream dos) {
+        try {
+            dos.writeBytes("HTTP/1.1 302 Found \r\n");
+            dos.writeBytes("Location: /index.html \r\n");
+            dos.writeBytes("\r\n");
         } catch (IOException e) {
             log.error(e.getMessage());
         }
