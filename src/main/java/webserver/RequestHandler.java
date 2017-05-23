@@ -111,12 +111,10 @@ public class RequestHandler extends Thread {
                 response200Header(dos, body.length);
                 responseBody(dos,body);
             } else if(url.endsWith(".css")){
-                System.out.println("===:"+url);
                 if(url.contains("/user")){
                     String modiUrl = url.substring(5);
                     url = modiUrl;
                 }
-                System.out.println("**:"+url);
                 DataOutputStream dos = new DataOutputStream(out);
                 byte[] body = Files.readAllBytes(new File("./webapp" + url).toPath());
                 css200Header(dos, body.length);
