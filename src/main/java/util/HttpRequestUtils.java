@@ -26,6 +26,15 @@ public class HttpRequestUtils {
         return parseValues(cookies, ";");
     }
 
+    public static Map<String, String> myParseQueryString(String data, Map map){
+        String [] token = data.split("&");
+        for(String tokens : token){
+            String temp[] = tokens.split("=");
+            map.put(temp[0],temp[1]);
+        }
+        return map;
+    }
+
     private static Map<String, String> parseValues(String values, String separator) {
         if (Strings.isNullOrEmpty(values)) {
             return Maps.newHashMap();
